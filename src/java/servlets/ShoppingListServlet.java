@@ -21,10 +21,12 @@ public class ShoppingListServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         
-        String logout = (String) session.getAttribute("action");
-        if (logout != null) {
+        String action = (String) request.getParameter("action");
+        if (action != null){
+            if (action.equals("logout")) {
             session.invalidate();
             session = request.getSession();
+        }
         }
         
         String username = (String) session.getAttribute("username");
@@ -33,6 +35,7 @@ public class ShoppingListServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
         }
         else {
+          
             getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
         }
     }
@@ -41,12 +44,20 @@ public class ShoppingListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String action = (String) session.getAttribute("action");
-        ArrayList shoppingList = (ArrayList) session.getAttribute("shoppingList");
+        String action = (String) request.getParameter("action");
+        ArrayList<String> shoppingList = (ArrayList) session.getAttribute("shoppingList");
         
+        if (shoppingList == null) {
+            shoppingList = new ArrayList<>();
+        }
+        
+        if (action.equals("register")) {
+            String username = request.getParameter("username");
+            session.setAttribute("username", username);
+        }
         if (action.equals("add")) {
             String item = request.getParameter("item");
-            if (!item.equals("")) {
+            if (item != null) {
                 shoppingList.add(item);
             }
         }
