@@ -57,7 +57,7 @@ public class ShoppingListServlet extends HttpServlet {
         }
         if (action.equals("add")) {
             String item = request.getParameter("item");
-            if (item != null) {
+            if (!item.equals("")) {
                 shoppingList.add(item);
             }
         }
