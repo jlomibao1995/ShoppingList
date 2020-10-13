@@ -15,6 +15,7 @@
         <h1>Shopping List</h1>
         <p>Hello, ${username}</p>
         <a href="ShoppingList?action=logout">Logout</a>
+        <h2>List</h2>
         
         <form action="ShoppingList" method="post">
             Add Item: <input type="text" name="item">
